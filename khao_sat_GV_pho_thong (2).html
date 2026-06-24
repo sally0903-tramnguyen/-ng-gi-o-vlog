@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khảo Sát Năng Lực Tiếng Anh - Giáo Viên Phổ Thông</title>
+<link rel="icon" type="image/x-icon" href="IMG_20260624_154546-removebg-preview.png">
+<link rel="pingback" href="https://khaosatnangluctienganh-gvpt-onggiaovlog/xmlrpc.php">
+<style>
+  :root{
+    --paper:#EBE8E0;
+    --paper-card:#F8F6F1;
+    --paper-dark:#DFDACB;
+    --ink:#212830;
+    --ink-soft:#5C6570;
+    --seal-gold:#9C7A2E;
+    --flag-red:#A8352B;
+    --pass-blue:#2A5A78;
+    --warn-bg:#FBF0E4;
+    --warn-border:#C98A3A;
+    --line:#CFC6AE;
+    --font-display:Georgia,'Iowan Old Style','Palatino Linotype',serif;
+    --font-mono:'SF Mono','Courier New',Courier,monospace;
+    --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-body);
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(120,110,80,0.06) 28px),
+      var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    padding:32px 5px 64px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:780px;margin:0 auto;}
+
+  .masthead{text-align:center;margin-bottom:18px;}
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.14em;
+    color:var(--pass-blue); text-transform:uppercase; margin-bottom:10px;
+  }
+  .title{
+    font-family:var(--font-display); font-size:clamp(20px,4.2vw,30px);
+    font-style:normal; color:var(--ink);
+  }
+  .subtitle{font-size:13.5px; color:var(--ink-soft); max-width:540px; margin:0 auto; line-height:1.55;}
+
+  .disclaimer{
+    max-width:780px; margin:0 auto 20px;
+    background:var(--warn-bg); border:1px solid var(--warn-border);
+    border-radius:8px; padding:13px 16px;
+    font-size:12.5px; line-height:1.6; color:#5A4426;
+  }
+  .disclaimer b{color:#3E2F19;}
+
+  .sheet{
+    background:var(--paper-card); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:0 1px 0 rgba(0,0,0,.03), 0 14px 30px -18px rgba(33,40,48,.4);
+    padding:32px clamp(18px,4vw,40px); position:relative;
+  }
+
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em;
+    color:var(--ink-soft); text-transform:uppercase; margin-bottom:6px;
+  }
+  .field input, .field select{
+    width:100%; border:none; border-bottom:1.5px solid var(--line); background:transparent;
+    font-family:var(--font-display); font-size:17px; color:var(--ink);
+    padding:6px 2px; outline:none; transition:border-color .15s ease;
+  }
+  .field input:focus, .field select:focus{border-bottom-color:var(--pass-blue);}
+  .field input::placeholder{color:#B0A78D; font-style:normal;}
+
+  .meta-row{display:flex; gap:24px; flex-wrap:wrap;}
+  .meta-row .field{flex:1; min-width:160px;}
+
+  .info-box{
+    margin-top:8px; padding:14px 16px; background:var(--paper-dark); border-radius:8px;
+    font-size:13.5px; line-height:1.6; color:var(--ink-soft);
+  }
+  .info-box b{color:var(--ink);}
+  .info-box ul{margin:8px 0 0; padding-left:18px;}
+  .info-box li{margin-bottom:3px;}
+
+  .btn{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:.05em; text-transform:uppercase;
+    border:none; cursor:pointer; border-radius:7px; padding:13px 24px;
+    transition:transform .08s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--ink); color:var(--paper-card);}
+  .btn-primary:hover{background:#0F1419;}
+  .btn-primary:disabled{background:#B9C0C8; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--ink-soft); border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--ink-soft); color:var(--ink);}
+  .btn:focus-visible{outline:2.5px solid var(--seal-gold); outline-offset:2px;}
+
+  .actions{display:flex; justify-content:flex-end; margin-top:28px;}
+  .actions.between{justify-content:space-between;}
+
+  .progress-strip{display:flex; align-items:center; gap:10px; margin-bottom:26px;}
+  .progress-track{flex:1; height:4px; background:var(--paper-dark); border-radius:4px; overflow:hidden;}
+  .progress-fill{height:100%; background:var(--pass-blue); border-radius:4px; transition:width .25s ease;}
+  .progress-label{font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); white-space:nowrap;}
+
+  .section-tag{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--pass-blue); margin-bottom:10px;
+  }
+  .passage{
+    background:var(--paper-dark); border-left:3px solid var(--seal-gold); border-radius:0 8px 8px 0;
+    padding:16px 18px; font-size:14.5px; line-height:1.65; margin-bottom:18px; color:var(--ink);
+    max-height:260px; overflow-y:auto;
+  }
+  .q-number{font-family:var(--font-mono); font-size:13px; color:var(--ink-soft); margin-bottom:4px;}
+  .q-text{font-size:18px; line-height:1.5; margin:0 0 22px; color:var(--ink);}
+  .options{display:flex; flex-direction:column; gap:10px;}
+  .option{
+    display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+    background:var(--paper-card); border:1.5px solid var(--line); border-radius:9px;
+    padding:12px 16px; cursor:pointer; font-size:15px; color:var(--ink);
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .option:hover{border-color:var(--ink-soft);}
+  .option .bubble{
+    flex:0 0 26px; width:26px; height:26px; border-radius:50%; border:2px solid var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:12px; font-weight:700; color:var(--ink-soft);
+    transition:background .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+  }
+  .option.selected{border-color:var(--ink); background:#FFFEF9;}
+  .option.selected .bubble{background:var(--ink); border-color:var(--ink); color:var(--paper-card); transform:scale(1.08);}
+  .option:focus-visible{outline:2.5px solid var(--seal-gold); outline-offset:2px;}
+
+  .stamp-row{display:flex; align-items:center; gap:22px; flex-wrap:wrap; margin-bottom:20px;}
+  .seal{
+    flex:0 0 auto; width:108px; height:108px; border-radius:50%; border:3px double var(--pass-blue);
+    color:var(--pass-blue); display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-family:var(--font-mono); position:relative;
+  }
+  .seal.band-low{border-color:var(--flag-red); color:var(--flag-red);}
+  .seal .band{font-size:22px; font-weight:700;}
+  .seal .band-cefr{font-size:11px; margin-top:1px;}
+  .seal .band-sub{font-size:8px; letter-spacing:.08em; margin-top:3px; text-align:center; padding:0 8px;}
+  .result-headline h2{font-family:var(--font-display); font-style:normal; font-size:21px; margin:0 0 4px; color:var(--ink);}
+  .result-headline .meta-line{font-size:12.5px; color:var(--ink-soft); margin-bottom:6px;}
+  .result-headline p{margin:0; font-size:13.5px; color:var(--ink-soft); line-height:1.55; max-width:460px;}
+
+  .compare-box{
+    background:var(--paper-dark); border-radius:8px; padding:12px 16px; margin-bottom:18px;
+    font-size:13.5px; color:var(--ink); display:flex; gap:24px; flex-wrap:wrap;
+  }
+  .compare-box .ci{display:flex; flex-direction:column;}
+  .compare-box .ci span.lbl{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em;}
+  .compare-box .ci span.val{font-size:16px; font-weight:600;}
+  .compare-note{font-size:12.5px; color:var(--ink-soft); margin-top:4px; width:100%;}
+
+  .score-table{width:100%; border-collapse:collapse; margin:18px 0 6px; font-size:14px;}
+  .score-table th{
+    text-align:left; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-soft); border-bottom:1.5px solid var(--ink); padding:8px 6px;
+  }
+  .score-table td{padding:9px 6px; border-bottom:1px solid var(--line);}
+  .score-table td.num{font-family:var(--font-mono); text-align:right;}
+  .score-table tr.total td{font-weight:700; border-top:1.5px solid var(--ink); border-bottom:none;}
+  .score-table tr.weak td{color:var(--flag-red);}
+
+  .review-toggle{
+    margin-top:18px; background:none; border:none; cursor:pointer;
+    font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); text-decoration:underline; padding:4px 0;
+  }
+  .review-list{margin-top:14px; display:none;}
+  .review-list.open{display:block;}
+  .review-item{border-bottom:1px solid var(--line); padding:12px 0; font-size:13.5px;}
+  .review-item .ri-q{margin:0 0 6px; color:var(--ink);}
+  .review-item .ri-ans{display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px;}
+  .ri-correct{color:var(--pass-blue);}
+  .ri-wrong{color:var(--flag-red);}
+  .ri-icon{font-weight:700; margin-right:4px;}
+
+  .result-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;}
+
+  .band-legend{margin-top:26px; padding-top:16px; border-top:1px dashed var(--line); font-size:11.5px; color:var(--ink-soft); line-height:1.8;}
+  .band-legend b{color:var(--ink); font-family:var(--font-mono);}
+
+  footer.note{text-align:center; font-size:12px; color:#9C9277; margin-top:18px; font-family:var(--font-mono);}
+
+  @media print{
+    body{background:#fff; padding:0;}
+    .no-print{display:none !important;}
+    .sheet{box-shadow:none; border:none;}
+    .passage{max-height:none; overflow:visible;}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+  <div><header>
+    <img style= "display: inline; margin-left: 25px;" src="IMG_20260624_154546-removebg-preview.png" alt="logo ông giáo vlog" width= "100" height = "50" >
+  </header></div>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Demo công cụ khảo sát · Tham chiếu CV 816/NGCBQLGD-PTNGCB</div>
+    <h1 class="title" style="white-space: nowrap;">Khảo Sát Năng Lực Tiếng Anh - Giáo Viên Phổ Thông</h1>
+    <p class="subtitle">Dành cho giáo viên các môn học khác (không dạy môn Tiếng Anh), phục vụ xác định nhu cầu bồi dưỡng đội ngũ theo Kế hoạch 179/KH-BGDĐT.</p>
+  </div>
+
+  <div class="disclaimer">
+    <b>Lưu ý:</b> Câu hỏi trong bản này do AI biên soạn để minh họa đúng cấu trúc, đối tượng và mục đích nêu trong Công văn 816/NGCBQLGD-PTNGCB - <b>không phải</b> bộ đề đã hiệu chuẩn chính thức của Bộ GDĐT. Phù hợp dùng nội bộ cho quy mô dưới 100 giáo viên; kết quả tự động tổng hợp về Google Sheet nếu đã cấu hình (xem hướng dẫn trong file).
+  </div>
+
+  <div class="sheet" id="sheet"></div>
+
+  <footer class="note no-print">Kết quả khảo sát chỉ phục vụ xây dựng kế hoạch bồi dưỡng, không dùng để đánh giá hay xếp loại giáo viên. Thông tin được bảo mật.</footer>
+</div>
+
+<script>
+/* ============== DỮ LIỆU CÂU HỎI ============== */
+const PASSAGE_1 = "Sunrise Secondary School has recently started a new programme to help teachers use more English in daily school activities. Once a week, teachers are encouraged to give simple instructions in English during morning assembly, such as announcements about the schedule or reminders about school rules. The school has also organised short training sessions every month, where an English teacher helps colleagues practise common classroom phrases. According to the headteacher, the goal is not to test teachers strictly, but to help them feel more confident using English in everyday situations. Several teachers said that although it felt difficult at first, they have slowly become more comfortable speaking simple English in front of students.";
+
+const QUESTIONS = [
+  // ---- NGỮ PHÁP ỨNG DỤNG (8) ----
+  {section:'grammar', text:"I usually ___ to school by bus.", options:["go","goes","going","went"], correct:0},
+  {section:'grammar', text:"She ___ teaching at this school for eight years.", options:["is","has been","was","has"], correct:1},
+  {section:'grammar', text:"If students don't understand, the teacher ___ explain it again.", options:["must","need","should","has to"], correct:2},
+  {section:'grammar', text:"We ___ a staff meeting yesterday afternoon.", options:["have","has","had","having"], correct:2},
+  {section:'grammar', text:"By next year, I ___ English for ten years.", options:["will study","have studied","studied","will have studied"], correct:3},
+  {section:'grammar', text:"The lesson plan ___ by the head teacher before each term.", options:["checked","is checked","checks","checking"], correct:1},
+  {section:'grammar', text:"If I ___ more time, I would prepare better lessons.", options:["have","had","has","will have"], correct:1},
+  {section:'grammar', text:"Students must hand in their homework ___ Friday.", options:["until","since","by","for"], correct:2},
+
+  // ---- TỪ VỰNG & NGÔN NGỮ TRƯỜNG HỌC (8) ----
+  {section:'vocab', text:"Please ___ your books and turn to page 20.", options:["close","write","open","read"], correct:2},
+  {section:'vocab', text:"Can you ___ the rules of the game, please?", options:["tell","explain","speak","talk"], correct:1},
+  {section:'vocab', text:"The deadline for the report has been ___ to next Friday.", options:["finished","canceled","started","postponed"], correct:3},
+  {section:'vocab', text:"Teachers should give clear ___ before starting an activity.", options:["instructions","instructs","information","instruct"], correct:0},
+  {section:'vocab', text:"We need to ___ attendance at the beginning of every class.", options:["make","take","do","have"], correct:1},
+  {section:'vocab', text:"If students are too noisy, you should ask them to ___ down.", options:["sit","stop","calm","quiet"], correct:2},
+  {section:'vocab', text:"The school will ___ a workshop on using technology in class.", options:["make","hold","do","take"], correct:1},
+  {section:'vocab', text:"Please remember to ___ off your phone during the lesson.", options:["close","stop","cut","turn"], correct:3},
+
+  // ---- ĐỌC HIỂU TÌNH HUỐNG TRƯỜNG HỌC (8) ----
+  {section:'reading', passage:1, text:"How often are teachers encouraged to use English during assembly?", options:["Every day","Once a week","Once a month","Only during exams"], correct:1},
+  {section:'reading', passage:1, text:"What do the monthly training sessions focus on?", options:["Grammar exams","Common classroom phrases","Writing reports","Reading novels"], correct:1},
+  {section:'reading', passage:1, text:"According to the headteacher, what is the main goal of the programme?", options:["To test teachers strictly","To replace English teachers","To help teachers feel more confident","To reduce teaching hours"], correct:2},
+  {section:'reading', passage:1, text:"How did teachers feel about the programme at first?", options:["Excited and confident","Bored","It felt difficult","Angry"], correct:2},
+  {section:'reading', passage:1, text:"What helps teachers practise classroom phrases?", options:["An English teacher colleague","An online course","Students","A textbook"], correct:0},
+  {section:'reading', passage:1, text:"What is the passage mainly about?", options:["A school's plan to use more English in daily activities","A new English exam for students","A school sports competition","A change in the school timetable"], correct:0},
+  {section:'reading', text:"A sign in the staff room says: \"Please switch off all lights and air conditioners before leaving the room.\" What does this sign ask staff to do?", options:["Turn on the lights when entering","Keep the lights on all day","Report broken lights","Turn off lights and AC when they leave"], correct:3},
+  {section:'reading', text:"A notice says: \"Staff meeting moved from Thursday to Friday, same time, same room.\" What has changed?", options:["The room","The time","The day","Nothing has changed"], correct:2},
+
+  // ---- TÌNH HUỐNG LỚP HỌC (FUNCTIONAL ENGLISH) (8) ----
+  {section:'functional', text:"You want students to work in pairs. You say:", options:["\"Please be quiet.\"","\"Please work in pairs.\"","\"Please stand up.\"","\"Please work alone.\""], correct:1},
+  {section:'functional', text:"A student doesn't understand your instruction. You can say:", options:["\"That's not my problem.\"","\"You should know this.\"","\"Let me explain it again.\"","\"Ask your friend only.\""], correct:2},
+  {section:'functional', text:"You want to check if students understood. You ask:", options:["\"Who is absent?\"","\"Are you all bored?\"","\"Is it difficult?\"","\"Does everyone understand?\""], correct:3},
+  {section:'functional', text:"It's time to start the lesson. You say:", options:["\"Let's get started.\"","\"Let's go home.\"","\"Let's stop now.\"","\"Let's clean up.\""], correct:0},
+  {section:'functional', text:"You want students to be quiet. You say:", options:["\"Speak louder, please.\"","\"Quiet, please.\"","\"Stand up, please.\"","\"Sit together, please.\""], correct:1},
+  {section:'functional', text:"A colleague asks for help preparing an English announcement. You could say:", options:["\"I have no idea.\"","\"Ask someone else.\"","\"It's not important.\"","\"Sure, I can help you with that.\""], correct:3},
+  {section:'functional', text:"You want to give positive feedback to a student. You say:", options:["\"That's wrong.\"","\"Well done!\"","\"Try again later.\"","\"I don't think so.\""], correct:1},
+  {section:'functional', text:"You need to end the lesson. You say:", options:["\"Let's start again.\"","\"Wait here.\"","\"That's all for today.\"","\"Don't go home.\""], correct:2},
+];
+
+const SECTIONS = {
+  grammar:    {label:'Ngữ pháp ứng dụng',          count:8},
+  vocab:      {label:'Từ vựng & ngôn ngữ trường học', count:8},
+  reading:    {label:'Đọc hiểu tình huống trường học', count:8},
+  functional: {label:'Tình huống lớp học',          count:8},
+};
+
+const LETTERS = ['A','B','C','D'];
+const SELF_BAC_OPTIONS = ['Bậc 2 (A2)','Bậc 3 (B1)','Bậc 4 (B2)'];
+
+/* ============== CẤU HÌNH LƯU TRỮ TỔNG HỢP (DƯỚI 100 GIÁO VIÊN) ==============
+   Dán URL Web App của Google Apps Script vào đây để tự động gửi kết quả
+   về 1 Google Sheet dùng chung. Xem hướng dẫn thiết lập ở cuối file (comment).
+   Để trống ('') nếu chỉ muốn lưu kết quả cục bộ trên máy từng giáo viên. */
+const GOOGLE_SCRIPT_URL = "";
+
+/* ============== TRẠNG THÁI ============== */
+let state = {
+  screen: 'start',
+  name: '', school: '', subject: '', selfBac: '',
+  current: 0,
+  answers: new Array(QUESTIONS.length).fill(null),
+  submitted: false,
+};
+
+const sheet = document.getElementById('sheet');
+
+function render(){
+  if(state.screen === 'start') renderStart();
+  else if(state.screen === 'quiz') renderQuiz();
+  else renderResults();
+}
+
+function renderStart(){
+  sheet.innerHTML = `
+    <div class="info-box">
+      Khảo sát gồm <b>32 câu</b>, khoảng 25-30 phút, áp dụng cho <b>giáo viên các môn học khác (không dạy môn Tiếng Anh)</b> đã tự đánh giá năng lực từ <b>Bậc 2 đến Bậc 4</b>. Gồm 4 phần:
+      <ul>
+        <li>Ngữ pháp ứng dụng (8 câu)</li>
+        <li>Từ vựng &amp; ngôn ngữ trường học (8 câu)</li>
+        <li>Đọc hiểu tình huống trường học (8 câu)</li>
+        <li>Tình huống lớp học - Functional English (8 câu)</li>
+      </ul>
+    </div>
+    <div class="info-box" style="margin-top:10px; ${GOOGLE_SCRIPT_URL ? '' : 'border:1px dashed var(--line);'}">
+      ${GOOGLE_SCRIPT_URL
+        ? '<b>Lưu trữ tổng hợp:</b> Kết quả sẽ tự động gửi về bảng tổng hợp chung (Google Sheet) ngay khi nộp bài.'
+        : '<b>Lưu trữ tổng hợp:</b> Chưa cấu hình - kết quả hiện chỉ lưu cục bộ trên máy, mỗi giáo viên cần tự tải/in kết quả gửi lại quản trị viên. Xem hướng dẫn cấu hình Google Sheet trong file HTML (cuối phần &lt;script&gt;).'}
+    </div>
+    <div class="meta-row" style="margin-top:24px;">
+      <div class="field">
+        <label for="inp-name">Họ và tên giáo viên</label>
+        <input id="inp-name" type="text" placeholder="Nguyễn Văn A" value="${escapeAttr(state.name)}">
+      </div>
+      <div class="field">
+        <label for="inp-school">Đơn vị công tác (Trường)</label>
+        <input id="inp-school" type="text" placeholder="VD: THCS Trường Yên" value="${escapeAttr(state.school)}">
+      </div>
+    </div>
+    <div class="meta-row">
+      <div class="field">
+        <label for="inp-subject">Môn giảng dạy</label>
+        <input id="inp-subject" type="text" placeholder="VD: Toán, Lịch sử, Vật lý..." value="${escapeAttr(state.subject)}">
+      </div>
+      <div class="field">
+        <label for="inp-bac">Bậc tự đánh giá hiện tại</label>
+        <select id="inp-bac">
+          <option value="">-- Chọn --</option>
+          ${SELF_BAC_OPTIONS.map(b=>`<option value="${b}" ${state.selfBac===b?'selected':''}>${b}</option>`).join('')}
+        </select>
+      </div>
+    </div>
+    <div class="actions no-print">
+      <button class="btn btn-primary" id="btn-start" ${state.selfBac?'':'disabled'}>Bắt đầu làm bài</button>
+    </div>
+  `;
+  document.getElementById('inp-name').addEventListener('input', e=> state.name = e.target.value);
+  document.getElementById('inp-school').addEventListener('input', e=> state.school = e.target.value);
+  document.getElementById('inp-subject').addEventListener('input', e=> state.subject = e.target.value);
+  document.getElementById('inp-bac').addEventListener('change', e=>{
+    state.selfBac = e.target.value;
+    render();
+  });
+  document.getElementById('btn-start').addEventListener('click', ()=>{
+    if(!state.selfBac) return;
+    state.screen = 'quiz'; state.current = 0; render();
+  });
+}
+
+function renderQuiz(){
+  const q = QUESTIONS[state.current];
+  const total = QUESTIONS.length;
+  const pct = Math.round((state.current/total)*100);
+
+  let passageHtml = '';
+  if(q.passage === 1){
+    passageHtml = `<div class="passage">${PASSAGE_1}</div>`;
+  }
+
+  sheet.innerHTML = `
+    <div class="progress-strip no-print">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="progress-label">Câu ${state.current+1}/${total}</div>
+    </div>
+    <div class="section-tag">${SECTIONS[q.section].label}</div>
+    ${passageHtml}
+    <div class="q-number">CÂU ${state.current+1}</div>
+    <p class="q-text">${q.text}</p>
+    <div class="options" id="options"></div>
+    <div class="actions between no-print">
+      <button class="btn btn-ghost" id="btn-back" ${state.current===0?'disabled':''}>\u2190 Câu trước</button>
+      <button class="btn btn-primary" id="btn-next" ${state.answers[state.current]===null?'disabled':''}>
+        ${state.current === total-1 ? 'Nộp bài' : 'Câu tiếp \u2192'}
+      </button>
+    </div>
+  `;
+
+  const optWrap = document.getElementById('options');
+  q.options.forEach((opt, i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'option' + (state.answers[state.current]===i ? ' selected':'');
+    btn.setAttribute('aria-pressed', state.answers[state.current]===i ? 'true':'false');
+    btn.innerHTML = `<span class="bubble">${LETTERS[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', ()=>{ state.answers[state.current] = i; render(); });
+    optWrap.appendChild(btn);
+  });
+
+  document.getElementById('btn-back').addEventListener('click', ()=>{
+    if(state.current>0){ state.current--; render(); }
+  });
+  document.getElementById('btn-next').addEventListener('click', ()=>{
+    if(state.answers[state.current]===null) return;
+    if(state.current < total-1){ state.current++; render(); }
+    else{ state.screen = 'results'; render(); }
+  });
+}
+
+function computeScore(){
+  const bySection = {};
+  Object.keys(SECTIONS).forEach(k=> bySection[k] = {correct:0, total:SECTIONS[k].count});
+  let totalCorrect = 0;
+  QUESTIONS.forEach((q,i)=>{
+    const ok = state.answers[i] === q.correct;
+    if(ok){ totalCorrect++; bySection[q.section].correct++; }
+  });
+  return {bySection, totalCorrect, totalQuestions: QUESTIONS.length};
+}
+
+function bandFor(pct){
+  if(pct >= 85) return {bac:5, key:'Bậc 5', cefr:'(C1)', sub:'CAO CẤP', desc:'Năng lực vượt mức yêu cầu khảo sát (Bậc 2-4). Có thể hỗ trợ đồng nghiệp hoặc tham gia hoạt động giáo dục bằng tiếng Anh ở mức phức tạp hơn.', tier:'top'};
+  if(pct >= 70) return {bac:4, key:'Bậc 4', cefr:'(B2)', sub:'TRÊN TRUNG CẤP', desc:'Sử dụng tiếng Anh khá thành thạo trong tình huống quen thuộc, đủ điều kiện tham gia hoạt động giáo dục bằng tiếng Anh ở mức cơ bản đến trung bình.', tier:'mid'};
+  if(pct >= 50) return {bac:3, key:'Bậc 3', cefr:'(B1)', sub:'TRUNG CẤP', desc:'Có thể giao tiếp cơ bản bằng tiếng Anh trong môi trường giáo dục. Nên tiếp tục bồi dưỡng để nâng cao độ chính xác và sự tự tin.', tier:'mid'};
+  if(pct >= 30) return {bac:2, key:'Bậc 2', cefr:'(A2)', sub:'SƠ CẤP', desc:'Đã có nền tảng cơ bản. Nên ưu tiên bồi dưỡng thêm để sử dụng tiếng Anh thành thạo hơn trong giao tiếp và hoạt động lớp học hàng ngày.', tier:'low'};
+  return {bac:1, key:'Bậc 1', cefr:'(A1)', sub:'MỚI BẮT ĐẦU', desc:'Cần được ưu tiên bồi dưỡng từ nền tảng cơ bản (từ vựng, ngữ pháp, giao tiếp đơn giản) để tự tin sử dụng tiếng Anh trong hoạt động giáo dục.', tier:'low'};
+}
+
+function submitToSheet(payload){
+  if(!GOOGLE_SCRIPT_URL) return; // chưa cấu hình -> chỉ lưu cục bộ, không gửi đi đâu
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type':'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).catch(()=>{ /* lỗi mạng -> bỏ qua, không chặn giáo viên xem kết quả của mình */ });
+}
+
+function renderResults(){
+  const {bySection, totalCorrect, totalQuestions} = computeScore();
+  const pct = Math.round((totalCorrect/totalQuestions)*100);
+  const band = bandFor(pct);
+  const sealClass = band.tier === 'low' ? 'band-low' : '';
+
+  if(!state.submitted){
+    state.submitted = true;
+    submitToSheet({
+      timestamp: new Date().toISOString(),
+      name: state.name, school: state.school, subject: state.subject,
+      selfBac: state.selfBac,
+      band: band.key + ' ' + band.cefr,
+      totalCorrect, totalQuestions, pct,
+      grammar: bySection.grammar.correct + '/' + bySection.grammar.total,
+      vocab: bySection.vocab.correct + '/' + bySection.vocab.total,
+      reading: bySection.reading.correct + '/' + bySection.reading.total,
+      functional: bySection.functional.correct + '/' + bySection.functional.total,
+    });
+  }
+
+  const selfBacNum = state.selfBac ? parseInt(state.selfBac.match(/\d/)[0],10) : null;
+  let compareNote = '';
+  if(selfBacNum !== null){
+    const diff = band.bac - selfBacNum;
+    if(diff === 0) compareNote = 'Kết quả khảo sát khớp với mức giáo viên tự đánh giá.';
+    else if(diff > 0) compareNote = 'Kết quả khảo sát cao hơn mức tự đánh giá ' + diff + ' bậc.';
+    else compareNote = 'Kết quả khảo sát thấp hơn mức tự đánh giá ' + Math.abs(diff) + ' bậc - nên ưu tiên bồi dưỡng.';
+  }
+
+  const rows = Object.keys(SECTIONS).map(k=>{
+    const s = bySection[k];
+    const sPct = Math.round((s.correct/s.total)*100);
+    const weak = sPct < 50 ? ' weak' : '';
+    return `<tr class="${weak.trim()}"><td>${SECTIONS[k].label}</td><td class="num">${s.correct}/${s.total}</td><td class="num">${sPct}%</td></tr>`;
+  }).join('');
+
+  sheet.innerHTML = `
+    <div class="stamp-row">
+      <div class="seal ${sealClass}">
+        <div class="band">${band.key}</div>
+        <div class="band-cefr">${band.cefr}</div>
+        <div class="band-sub">${band.sub}</div>
+      </div>
+      <div class="result-headline">
+        <h2>${state.name ? state.name : 'Giáo viên'}</h2>
+        <div class="meta-line">${state.school ? state.school : '-'}${state.subject ? ' · GV môn '+state.subject : ''}</div>
+        <p>${band.desc}</p>
+      </div>
+    </div>
+
+    ${selfBacNum ? `<div class="compare-box">
+      <div class="ci"><span class="lbl">Bậc tự đánh giá</span><span class="val">Bậc ${selfBacNum}</span></div>
+      <div class="ci"><span class="lbl">Bậc qua khảo sát</span><span class="val">${band.key}</span></div>
+      <div class="compare-note">${compareNote}</div>
+    </div>` : ''}
+
+    <table class="score-table">
+      <thead><tr><th>Phần khảo sát</th><th class="num">Số câu đúng</th><th class="num">Tỉ lệ</th></tr></thead>
+      <tbody>
+        ${rows}
+        <tr class="total"><td>Tổng điểm</td><td class="num">${totalCorrect}/${totalQuestions}</td><td class="num">${pct}%</td></tr>
+      </tbody>
+    </table>
+    <div class="info-box" style="margin-top:14px;">Các dòng <b style="color:var(--flag-red)">tô đỏ</b> là phần đạt dưới 50% - gợi ý mảng nội dung cần ưu tiên trong kế hoạch bồi dưỡng.</div>
+
+    <button class="review-toggle no-print" id="btn-review">Xem đáp án chi tiết \u25be</button>
+    <div class="review-list" id="review-list">
+      ${QUESTIONS.map((q,i)=>{
+        const userAns = state.answers[i];
+        const ok = userAns === q.correct;
+        return `<div class="review-item">
+          <p class="ri-q"><b>Câu ${i+1} (${SECTIONS[q.section].label}):</b> ${q.text}</p>
+          <div class="ri-ans">
+            <span class="${ok?'ri-correct':'ri-wrong'}"><span class="ri-icon">${ok?'\u2713':'\u2717'}</span>Chọn: ${userAns===null?'(bỏ trống)':LETTERS[userAns]+'. '+q.options[userAns]}</span>
+            ${!ok ? `<span class="ri-correct"><span class="ri-icon">\u2713</span>Đáp án đúng: ${LETTERS[q.correct]}. ${q.options[q.correct]}</span>` : ''}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="result-actions no-print">
+      <button class="btn btn-primary" id="btn-print">In / Lưu PDF kết quả</button>
+      <button class="btn btn-ghost" id="btn-download">Tải kết quả (.txt)</button>
+      <button class="btn btn-ghost" id="btn-restart">Khảo sát giáo viên khác</button>
+    </div>
+
+    <div class="band-legend no-print">
+      <b>Bậc 1 (A1)</b> &lt;30% &nbsp;|&nbsp; <b>Bậc 2 (A2)</b> 30-49% &nbsp;|&nbsp; <b>Bậc 3 (B1)</b> 50-69% &nbsp;|&nbsp; <b>Bậc 4 (B2)</b> 70-84% &nbsp;|&nbsp; <b>Bậc 5 (C1)</b> \u226585%
+    </div>
+  `;
+
+  document.getElementById('btn-review').addEventListener('click', (e)=>{
+    const list = document.getElementById('review-list');
+    list.classList.toggle('open');
+    e.target.textContent = list.classList.contains('open') ? 'Ẩn đáp án chi tiết \u25b4' : 'Xem đáp án chi tiết \u25be';
+  });
+  document.getElementById('btn-print').addEventListener('click', ()=> window.print());
+  document.getElementById('btn-download').addEventListener('click', ()=> downloadResult(band, pct, totalCorrect, totalQuestions, bySection, compareNote, selfBacNum));
+  document.getElementById('btn-restart').addEventListener('click', ()=>{
+    state = {screen:'start', name:'', school:'', subject:'', selfBac:'', current:0, answers:new Array(QUESTIONS.length).fill(null), submitted:false};
+    render();
+  });
+}
+
+function downloadResult(band, pct, totalCorrect, totalQuestions, bySection, compareNote, selfBacNum){
+  const lines = [];
+  lines.push('KHẢO SÁT NĂNG LỰC TIẾNG ANH - GIÁO VIÊN PHỔ THÔNG (BẢN DEMO)');
+  lines.push('Tham chiếu: Công văn 816/NGCBQLGD-PTNGCB');
+  lines.push('----------------------------------------');
+  lines.push('Giáo viên: ' + (state.name || '(chưa nhập tên)'));
+  lines.push('Đơn vị: ' + (state.school || '-'));
+  lines.push('Môn giảng dạy: ' + (state.subject || '-'));
+  lines.push('Ngày: ' + new Date().toLocaleDateString('vi-VN'));
+  lines.push('----------------------------------------');
+  Object.keys(SECTIONS).forEach(k=>{
+    const s = bySection[k];
+    lines.push(SECTIONS[k].label + ': ' + s.correct + '/' + s.total);
+  });
+  lines.push('----------------------------------------');
+  lines.push('Tổng điểm: ' + totalCorrect + '/' + totalQuestions + ' (' + pct + '%)');
+  lines.push('Mức năng lực qua khảo sát: ' + band.key + ' ' + band.cefr + ' - ' + band.sub);
+  if(selfBacNum) lines.push('Bậc tự đánh giá: Bậc ' + selfBacNum + ' | ' + compareNote);
+  lines.push(band.desc);
+  lines.push('----------------------------------------');
+  lines.push('Lưu ý: Kết quả chỉ phục vụ xây dựng kế hoạch bồi dưỡng, không dùng để đánh giá/xếp loại giáo viên.');
+
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'khao-sat-gv-' + (state.name ? state.name.replace(/\s+/g,'-') : 'giao-vien') + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function escapeAttr(str){ return String(str).replace(/"/g,'&quot;'); }
+
+render();
+
+/* ===========================================================================
+   HƯỚNG DẪN THIẾT LẬP LƯU TRỮ TỔNG HỢP QUA GOOGLE SHEET (cho dưới 100 GV)
+   ===========================================================================
+   Không cần biết lập trình, làm 1 lần mất khoảng 5 phút:
+
+   BƯỚC 1: Tạo Google Sheet mới (sheets.google.com), đặt tên ví dụ "KQ_KhaoSat_GV".
+
+   BƯỚC 2: Vào menu Extensions (Tiện ích mở rộng) > Apps Script.
+
+   BƯỚC 3: Xóa hết code mẫu (myFunction...), dán đoạn code dưới đây vào:
+
+   function doPost(e) {
+     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('KetQua');
+     if (!sheet) {
+       sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet('KetQua');
+       sheet.appendRow(['Thời gian','Họ tên','Trường','Môn dạy','Bậc tự đánh giá',
+         'Bậc qua khảo sát','Số câu đúng','Tổng câu','Phần trăm',
+         'Ngữ pháp','Từ vựng','Đọc hiểu','Tình huống lớp học']);
+     }
+     var data = JSON.parse(e.postData.contents);
+     sheet.appendRow([
+       data.timestamp, data.name, data.school, data.subject, data.selfBac,
+       data.band, data.totalCorrect, data.totalQuestions, data.pct,
+       data.grammar, data.vocab, data.reading, data.functional
+     ]);
+     return ContentService.createTextOutput(JSON.stringify({status:'ok'}))
+       .setMimeType(ContentService.MimeType.JSON);
+   }
+
+   BƯỚC 4: Bấm biểu tượng Lưu (đĩa mềm), đặt tên project tùy ý.
+
+   BƯỚC 5: Bấm nút "Deploy" (Triển khai) > "New deployment" (Bản triển khai mới).
+            - Chọn loại: "Web app"
+            - Execute as (Thực thi với quyền): Me (tài khoản của bạn)
+            - Who has access (Người có quyền truy cập): Anyone (Bất kỳ ai)
+            - Bấm "Deploy", cấp quyền nếu được hỏi (Authorize access).
+
+   BƯỚC 6: Copy đường dẫn "Web app URL" hiện ra (dạng
+            https://script.google.com/macros/s/.../exec)
+
+   BƯỚC 7: Dán đường dẫn đó vào biến GOOGLE_SCRIPT_URL ở đầu phần <script>
+            của file HTML này, ví dụ:
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+
+   BƯỚC 8: Lưu file HTML, gửi file (hoặc link nếu host lên đâu đó) cho tối đa
+            ~100 giáo viên. Mỗi lần có người nộp bài, 1 dòng kết quả sẽ tự
+            động xuất hiện trong sheet "KetQua" - bạn mở Google Sheet bất cứ
+            lúc nào để xem báo cáo tổng hợp, không cần thao tác gì thêm.
+
+   Lưu ý: Vì gọi qua mode 'no-cors', trình duyệt sẽ không đọc được phản hồi
+   từ Google (không phải lỗi) - dữ liệu vẫn được ghi vào Sheet bình thường,
+   bạn cứ kiểm tra trực tiếp trên Sheet là thấy ngay.
+   =========================================================================== */
+
+</script>
+</body>
+</html>
